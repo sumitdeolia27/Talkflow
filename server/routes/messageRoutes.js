@@ -1,0 +1,14 @@
+import express from 'express';
+import { getChatMessages, sendCallSignal, sendMessage, sseController } from '../controllers/messageController.js';
+import { upload } from '../configs/multer.js';
+import { protect } from '../middlewares/auth.js';
+
+
+const messageRouter = express.Router();
+
+messageRouter.get('/:userId', sseController)
+messageRouter.post('/call-signal', protect, sendCallSignal)
+messageRouter.post('/send', upload.single('image'), protect, sendMessage)
+messageRouter.post('/get', protect, getChatMessages)
+
+export default messageRouter

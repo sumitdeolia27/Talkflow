@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+*{
+  font-family: "Outfit", sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar{
+  display: none;
+}
+
+.theme-logo-dark {
+  display: none;
+}
+
+html.dark .theme-logo-light {
+  display: none;
+}
+
+html.dark .theme-logo-dark {
+  display: block;
+}
+
+.logo-on-dark .theme-logo-light {
+  display: none;
+}
+
+.logo-on-dark .theme-logo-dark {
+  display: block;
+}
+
+html.dark body {
+  background: #000;
+  color: #f5f5f5;
+}
+
+html.dark .bg-slate-50,
+html.dark .bg-gray-50,
+html.dark .bg-gradient-to-b.from-slate-50,
+html.dark .from-slate-50,
+html.dark .to-white {
+  background: #000 !important;
+}
+
+html.dark .dark-shell {
+  background-color: #000 !important;
+  box-shadow: 0 1px 0 #262626;
+}
+
+html.dark .bg-white,
+html.dark .bg-white\/80,
+html.dark .bg-white\/85 {
+  background-color: #0f1115 !important;
+}
+
+html.dark .bg-slate-100,
+html.dark .bg-gray-100,
+html.dark .bg-indigo-50,
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-gray-50:hover {
+  background-color: #1a1a1a !important;
+}
+
+html.dark .bg-indigo-50 {
+  background-color: #262626 !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-300,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+  border-color: #262626 !important;
+}
+
+html.dark .shadow,
+html.dark .shadow-sm,
+html.dark .shadow-md,
+html.dark .shadow-lg,
+html.dark .shadow-xl {
+  box-shadow: none !important;
+}
+
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-gray-900,
+html.dark .text-black {
+  color: #f5f5f5 !important;
+}
+
+html.dark .text-slate-800,
+html.dark .text-slate-700,
+html.dark .text-gray-800,
+html.dark .text-gray-700 {
+  color: #f0f0f0 !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-gray-600,
+html.dark .text-gray-500,
+html.dark .text-gray-400 {
+  color: #a8a8a8 !important;
+}
+
+html.dark .text-indigo-700,
+html.dark .text-indigo-600 {
+  color: #8aa8ff !important;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #121212 !important;
+  border-color: #363636 !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #737373 !important;
+}
+
+html.dark img {
+  border-color: #262626;
+}
+
+html.dark .ring-gray-100 {
+  --tw-ring-color: #000 !important;
+}
+
+html.dark .from-indigo-50.to-white {
+  background: #0f1115 !important;
+}
+
+html.dark .story-ring {
+  background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5);
+}
+
+html.dark .story-create-card > div {
+  background: #0f1115 !important;
+  border-color: #363636 !important;
+}
+
+html.dark .story-create-card p,
+html.dark .story-bubble p {
+  color: #f5f5f5 !important;
+}
+
+html.dark .rounded-xl,
+html.dark .rounded-md,
+html.dark .rounded-lg {
+  border-color: #262626;
+}
+
+html.dark .bg-gradient-to-r.from-indigo-500.to-purple-600 {
+  background: linear-gradient(90deg, #405de6, #833ab4, #c13584) !important;
+}
+
+html.dark .bg-gradient-to-b.from-indigo-500.to-purple-600 {
+  background: linear-gradient(180deg, #405de6, #833ab4, #c13584) !important;
+}
+
+html.dark .hover\:text-gray-700:hover {
+  color: #f5f5f5 !important;
+}
+
+html.dark .profile-page {
+  background: #000 !important;
+}
+
+html.dark .profile-card,
+html.dark .profile-tabs {
+  background: #000 !important;
+  border: 1px solid #262626;
+}
+
+html.dark .profile-cover {
+  background: linear-gradient(135deg, #262626, #111, #262626) !important;
+}
+
+html.dark .profile-tabs {
+  box-shadow: none !important;
+}
+
+html.dark .home-page {
+  background: #000 !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark .home-page .bg-\[\#f7f8fb\] {
+  background: #000 !important;
+}
+
+html.dark .home-page .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+html.dark .home-page .text-emerald-800 {
+  color: #6ee7b7 !important;
+}
+
+html.dark .home-page .bg-amber-50 {
+  background-color: rgba(251, 191, 36, 0.12) !important;
+  border-color: rgba(251, 191, 36, 0.35) !important;
+}
+
+html.dark .home-page .text-amber-900 {
+  color: #fcd34d !important;
+}
+
+html.dark .chat-page {
+  background: #050505 !important;
+}
+
+html.dark .chat-header {
+  background: #0f1115 !important;
+  border-color: #262626 !important;
+}
+
+html.dark .chat-user-name {
+  color: #f5f5f5 !important;
+}
+
+html.dark .chat-user-handle {
+  color: #a8a8a8 !important;
+}
+
+html.dark .chat-call-button {
+  background: #1a1a1a !important;
+  color: #f5f5f5 !important;
+  --tw-ring-color: #2a2a2a !important;
+}
+
+html.dark .chat-messages {
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.12), transparent 28rem),
+    #050505 !important;
+}
+
+html.dark .chat-bubble {
+  box-shadow: none !important;
+  border: 1px solid #242424;
+}
+
+html.dark .chat-bubble-in {
+  background: #141414 !important;
+  color: #f5f5f5 !important;
+}
+
+html.dark .chat-bubble-out {
+  background: #4f46e5 !important;
+  border-color: #4f46e5 !important;
+  color: #fff !important;
+}
+
+html.dark .chat-composer-wrap {
+  background: #050505 !important;
+}
+
+html.dark .chat-composer {
+  background: #111 !important;
+  border-color: #262626 !important;
+  box-shadow: none !important;
+}
+
+html.dark .chat-input {
+  background: transparent !important;
+  color: #f5f5f5 !important;
+}
