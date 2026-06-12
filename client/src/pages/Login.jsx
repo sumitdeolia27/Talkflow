@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   updateProfile,
 } from 'firebase/auth'
 import { Link, useSearchParams } from 'react-router-dom'
@@ -45,9 +46,35 @@ const Login = () => {
   }
 
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
-    toast.success('Signed in with Google')
+    setLoading(true)
+
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({ prompt: 'select_account' })
+      await signInWithPopup(auth, provider)
+      toast.success('Signed in with Google')
+    } catch (error) {
+      if (
+        error.code === 'auth/popup-closed-by-user' ||
+        error.code === 'auth/popup-blocked' ||
+        error.code === 'auth/cancelled-popup-request'
+      ) {
+        const provider = new GoogleAuthProvider()
+        provider.setCustomParameters({ prompt: 'select_account' })
+        await signInWithRedirect(auth, provider)
+        return
+      }
+
+      if (error.code === 'auth/unauthorized-domain') {
+        toast.error('Add this Vercel domain in Firebase Authorized domains.')
+      } else if (error.code === 'auth/configuration-not-found') {
+        toast.error('Enable Google sign-in in Firebase Authentication.')
+      } else {
+        toast.error(error.message)
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -150,8 +177,8 @@ const Login = () => {
                 or
                 <span className='h-px flex-1 bg-slate-200' />
               </div>
-              <button type='button' onClick={handleGoogleSignIn} className='w-full rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:border-slate-400'>
-                Continue with Google
+              <button type='button' onClick={handleGoogleSignIn} disabled={loading} className='w-full rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-60'>
+                {loading ? 'Please wait...' : 'Continue with Google'}
               </button>
 
               <p className='mt-6 text-center text-sm text-slate-600'>
