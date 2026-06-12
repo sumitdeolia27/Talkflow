@@ -25,9 +25,28 @@ const Login = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const authTitle = useMemo(() => {
-    return isSignUp ? 'Create your account' : 'Welcome back'
-  }, [isSignUp])
+  const authTitle = useMemo(() => (
+    isSignUp ? 'Create your account' : 'Welcome back'
+  ), [isSignUp])
+
+  const handleFirebaseError = (error) => {
+    if (error.code === 'auth/unauthorized-domain') {
+      toast.error('Add this Vercel domain in Firebase Authorized domains.')
+      return
+    }
+
+    if (error.code === 'auth/configuration-not-found') {
+      toast.error('Enable this sign-in method in Firebase Authentication.')
+      return
+    }
+
+    if (error.code === 'auth/invalid-credential') {
+      toast.error('Invalid email or password.')
+      return
+    }
+
+    toast.error(error.message || 'Authentication failed.')
+  }
 
   const handleEmailSubmit = async () => {
     if (isSignUp && password !== confirmPassword) {
@@ -39,10 +58,11 @@ const Login = () => {
       const { user } = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(user, { displayName: fullName })
       toast.success('Account created successfully')
-    } else {
-      await signInWithEmailAndPassword(auth, email, password)
-      toast.success('Signed in successfully')
+      return
     }
+
+    await signInWithEmailAndPassword(auth, email, password)
+    toast.success('Signed in successfully')
   }
 
   const handleGoogleSignIn = async () => {
@@ -65,13 +85,7 @@ const Login = () => {
         return
       }
 
-      if (error.code === 'auth/unauthorized-domain') {
-        toast.error('Add this Vercel domain in Firebase Authorized domains.')
-      } else if (error.code === 'auth/configuration-not-found') {
-        toast.error('Enable Google sign-in in Firebase Authentication.')
-      } else {
-        toast.error(error.message)
-      }
+      handleFirebaseError(error)
     } finally {
       setLoading(false)
     }
@@ -84,7 +98,7 @@ const Login = () => {
     try {
       await handleEmailSubmit()
     } catch (error) {
-      toast.error(error.message)
+      handleFirebaseError(error)
     } finally {
       setLoading(false)
     }
@@ -107,6 +121,7 @@ const Login = () => {
               <ArrowLeft className='size-4' />
               Home
             </Link>
+
             <div className='max-w-xl'>
               <ThemedLogo className='mb-8 h-24 w-80' />
               <p className='mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-400/15 px-3 py-1 text-sm font-medium text-emerald-100'>
@@ -120,6 +135,7 @@ const Login = () => {
                 Login with email or Google and jump back into your network.
               </p>
             </div>
+
             <div className='grid grid-cols-3 gap-3 text-sm text-slate-200'>
               <p className='rounded-md bg-white/10 p-3 backdrop-blur'>Posts</p>
               <p className='rounded-md bg-white/10 p-3 backdrop-blur'>Messages</p>
@@ -177,6 +193,7 @@ const Login = () => {
                 or
                 <span className='h-px flex-1 bg-slate-200' />
               </div>
+
               <button type='button' onClick={handleGoogleSignIn} disabled={loading} className='w-full rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-60'>
                 {loading ? 'Please wait...' : 'Continue with Google'}
               </button>
