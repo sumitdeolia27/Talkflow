@@ -456,8 +456,23 @@ npm start
 
 #### MongoDB auth fails on Render
 
+
 Check `MONGODB_URI`, database username, database password, and MongoDB Atlas Network Access.
 
 #### Calls or real-time messages feel slow
 
 Free Render services can sleep when inactive. Open the backend URL once, wait for it to wake up, then refresh the frontend.
+### 🔐 Preview 1
+![Command Pallete](screenshort/1.png)
+---
+### 💽 Preview 2  
+![Extension](screenshort/2.png)
+---
+### 🔐 Preview 3
+![Command Pallete](screenshort/3.png)
+---
+### 💽 Preview 4 
+![Extension](screenshort/4.png)
+---
+### 💽 Preview 5
+![Extension](screenshort/5.png)
