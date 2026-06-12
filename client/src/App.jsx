@@ -138,11 +138,12 @@ const App = () => {
       const result = await dispatch(fetchConnections(token)).unwrap()
       if (!result) return
 
-      const currentIds = result.pendingConnections.map((requestUser) => requestUser._id)
+      const pendingConnections = Array.isArray(result.pendingConnections) ? result.pendingConnections : []
+      const currentIds = pendingConnections.map((requestUser) => requestUser._id)
 
       const newRequests = pendingRequestIdsRef.current === null
-        ? result.pendingConnections
-        : result.pendingConnections.filter(
+        ? pendingConnections
+        : pendingConnections.filter(
             (requestUser) => !pendingRequestIdsRef.current.includes(requestUser._id)
           )
 

@@ -9,6 +9,13 @@ const initialState = {
     following: []
 }
 
+const normalizeConnections = (payload) => ({
+    connections: Array.isArray(payload?.connections) ? payload.connections : [],
+    pendingConnections: Array.isArray(payload?.pendingConnections) ? payload.pendingConnections : [],
+    followers: Array.isArray(payload?.followers) ? payload.followers : [],
+    following: Array.isArray(payload?.following) ? payload.following : [],
+})
+
 export const fetchConnections = createAsyncThunk('connections/fetchConnections', async (token) => {
     if (!token) return null;
 
@@ -27,10 +34,11 @@ const connectionsSlice = createSlice({
     extraReducers: (builder)=>{
         builder.addCase(fetchConnections.fulfilled, (state, action)=>{
             if(action.payload){
-                state.connections = action.payload.connections
-                state.pendingConnections = action.payload.pendingConnections
-                state.followers = action.payload.followers
-                state.following = action.payload.following
+                const payload = normalizeConnections(action.payload)
+                state.connections = payload.connections
+                state.pendingConnections = payload.pendingConnections
+                state.followers = payload.followers
+                state.following = payload.following
             }
         })
     }

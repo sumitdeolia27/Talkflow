@@ -6,6 +6,19 @@ import User from "../models/User.js"
 import fs from 'fs'
 import { initFirebase } from '../configs/firebase.js'
 
+const normalizeUser = (user) => {
+    if (!user) return user;
+
+    user.followers ||= [];
+    user.following ||= [];
+    user.connections ||= [];
+    user.bio ||= 'Hey there! I am using TalkFlow.';
+    user.profile_picture ||= '';
+    user.cover_photo ||= '';
+    user.location ||= '';
+
+    return user;
+}
 
 // Get User Data using userId
 export const getUserData = async (req, res) => {
@@ -38,10 +51,22 @@ export const getUserData = async (req, res) => {
                 full_name,
                 profile_picture,
                 username,
+                followers: [],
+                following: [],
+                connections: [],
             })
+        } else {
+            const updates = {}
+            if (!Array.isArray(user.followers)) updates.followers = []
+            if (!Array.isArray(user.following)) updates.following = []
+            if (!Array.isArray(user.connections)) updates.connections = []
+
+            if (Object.keys(updates).length) {
+                user = await User.findByIdAndUpdate(userId, updates, { new: true })
+            }
         }
 
-        res.json({ success: true, user })
+        res.json({ success: true, user: normalizeUser(user) })
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message })
@@ -248,9 +273,9 @@ export const getUserConnections = async (req, res) => {
         const userId = req.userId
         const user = await User.findById(userId).populate('connections followers following')
 
-        const connections = user.connections
-        const followers = user.followers
-        const following = user.following
+        const connections = user?.connections || []
+        const followers = user?.followers || []
+        const following = user?.following || []
 
         const pendingConnections = (await Connection.find({to_user_id: userId, status: 'pending'}).populate('from_user_id')).map(connection=>connection.from_user_id)
 

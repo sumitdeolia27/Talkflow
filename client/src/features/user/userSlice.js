@@ -9,6 +9,21 @@ const initialState = {
     error: null,
 }
 
+const normalizeUser = (user) => {
+    if (!user) return null
+
+    return {
+        ...user,
+        followers: Array.isArray(user.followers) ? user.followers : [],
+        following: Array.isArray(user.following) ? user.following : [],
+        connections: Array.isArray(user.connections) ? user.connections : [],
+        bio: user.bio || 'Hey there! I am using TalkFlow.',
+        profile_picture: user.profile_picture || '',
+        cover_photo: user.cover_photo || '',
+        location: user.location || '',
+    }
+}
+
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token, { rejectWithValue }) => {
     if (!token) {
         return rejectWithValue('Firebase login token is missing. Please sign in again.')
@@ -17,7 +32,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (token, { reje
     const { data } = await api.get('/api/user/data', {
         headers: {Authorization: `Bearer ${token}`}
     })
-    return data.success ? data.user : rejectWithValue(data.message || 'Failed to load user profile')
+    return data.success ? normalizeUser(data.user) : rejectWithValue(data.message || 'Failed to load user profile')
 })
 
 export const updateUser = createAsyncThunk('user/update', async ({userData ,token}) => {
@@ -46,12 +61,12 @@ const userSlice = createSlice({
             state.error = null
         }).addCase(fetchUser.fulfilled, (state, action)=>{
             state.loading = false
-            state.value = action.payload
+                state.value = normalizeUser(action.payload)
         }).addCase(fetchUser.rejected, (state, action)=>{
             state.loading = false
             state.error = action.payload || action.error.message
         }).addCase(updateUser.fulfilled, (state, action)=>{
-            state.value = action.payload
+            state.value = normalizeUser(action.payload)
         })
     }
 })
